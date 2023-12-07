@@ -19,7 +19,7 @@ jobs:
     name: e2e
     runs-on: ubuntu-latest
     steps:
-      - run: "this step very very long e2e test"
+      - run: echo "this step very very long e2e test"
   commit-status-final:
     if: always()
     name: Commit Status Final
