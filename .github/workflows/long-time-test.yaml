@@ -19,6 +19,7 @@ jobs:
           sha: ${{ github.sha }}
   e2e:
     name: e2e
+    needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
     runs-on: ubuntu-latest
     steps:
       - run: echo "this step very very long e2e test"
