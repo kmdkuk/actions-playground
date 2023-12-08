@@ -1,0 +1,21 @@
+name: handle PR comments
+on:
+  issue_comment:
+    types:
+      - created
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  run_test:
+    name: "Run e2e test"
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo github.event
+          echo ${{ github.event }}
+          echo github
+          echo ${{ github }}
