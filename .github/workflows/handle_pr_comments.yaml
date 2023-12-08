@@ -19,11 +19,12 @@ jobs:
       #     echo '${{ toJSON(github.event) }}'
       #     echo github
       #     echo '${{ toJSON(github) }}'
+      - uses: actions/checkout@v4
       - name: trigger e2e
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          REF="refs/pull/${{ github.event.pull_request.number }}/merge"
+          BRANCH_NAME=$(gh pr view --json headRefName --jq .headRefName ${{ github.event.pull_request.numbder }})
           echo "triggering e2e"
-          gh workflow run --ref ${REF} long-time-test-failure.yaml
-          gh workflow run --ref ${REF} long-time-test.yaml
+          gh workflow run --ref ${BRANCH_NAME} long-time-test-failure.yaml
+          gh workflow run --ref ${BRANCH_NAME} long-time-test.yaml
