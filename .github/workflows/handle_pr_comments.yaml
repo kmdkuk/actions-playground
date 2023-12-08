@@ -16,6 +16,6 @@ jobs:
     steps:
       - run: |
           echo github.event
-          echo ${{ toJSON(github.event) }}
+          echo '${{ toJSON(github.event) }}'
           echo github
-          echo ${{ toJSON(github) }}
+          echo '${{ toJSON(github) }}'
