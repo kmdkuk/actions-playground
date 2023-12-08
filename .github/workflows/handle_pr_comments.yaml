@@ -19,8 +19,9 @@ jobs:
       #     echo '${{ toJSON(github.event) }}'
       #     echo github
       #     echo '${{ toJSON(github) }}'
-      - name: extract sha
-        id: extract
+      - name: trigger e2e
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           REF="refs/pull/${{ github.event.pull_request.number }}/merge"
           echo "triggering e2e"
