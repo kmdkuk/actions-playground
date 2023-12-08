@@ -1,0 +1,11 @@
+name: onPR
+on:
+  pull_request:
+
+jobs:
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "test topic branch"
