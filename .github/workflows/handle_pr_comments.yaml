@@ -14,8 +14,15 @@ jobs:
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo github.event
-          echo '${{ toJSON(github.event) }}'
-          echo github
-          echo '${{ toJSON(github) }}'
+      # - run: |
+      #     echo github.event
+      #     echo '${{ toJSON(github.event) }}'
+      #     echo github
+      #     echo '${{ toJSON(github) }}'
+      - name: extract sha
+        id: extract
+        run: |
+          REF="refs/pull/${{ github.event.pull_request.number }}/merge"
+          echo "triggering e2e"
+          gh workflow run --ref ${REF} long-time-test-failure.yaml
+          gh workflow run --ref ${REF} long-time-test.yaml
