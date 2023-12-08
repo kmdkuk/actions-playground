@@ -3,8 +3,8 @@ on:
   pull_request:
 
 jobs:
-  e2e:
-    name: e2e
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
