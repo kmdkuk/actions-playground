@@ -11,7 +11,7 @@ permissions:
 jobs:
   run_test:
     name: "Run e2e test"
-    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
+    if: github.event.issue.pull_request && github.event.comment.body = '/test' && contains('["OWNER", "COLLABORATOR", "CONTRIBUTOR"]', github.event.comment.author_association)
     runs-on: ubuntu-latest
     steps:
       - name: display github context
