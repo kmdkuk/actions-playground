@@ -24,7 +24,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BRANCH_NAME=$(gh pr view --json headRefName --jq .headRefName ${{ github.event.pull_request.numbder }})
+          BRANCH_NAME=$(gh pr view --json headRefName --jq .headRefName ${{ github.event.issue.number }})
           echo "triggering e2e"
           gh workflow run --ref ${BRANCH_NAME} long-time-test-failure.yaml
           gh workflow run --ref ${BRANCH_NAME} long-time-test.yaml
