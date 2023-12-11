@@ -14,6 +14,17 @@ jobs:
     if: github.event.issue.pull_request && github.event.comment.body == '/test' && contains('["OWNER", "COLLABORATOR", "CONTRIBUTOR"]', github.event.comment.author_association)
     runs-on: ubuntu-latest
     steps:
+      - name: create reaction
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # https://docs.github.com/ja/rest/reactions/reactions?apiVersion=2022-11-28#create-reaction-for-an-issue-comment
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
+            -f content='rocket'
       - name: display github context
         run: |
           echo github
