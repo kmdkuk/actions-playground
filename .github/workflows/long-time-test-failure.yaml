@@ -26,14 +26,24 @@ jobs:
       - run: |
           echo "this step very very long e2e test"
           false
+  e2e-hoge:
+    name: e2e
+    needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "this step very very long e2e-hoge test"
   commit-status-final:
     if: always()
     name: Commit Status Final
-    needs: e2e
+    needs:
+      - e2e
+      - e2e-hoge
     runs-on: ubuntu-latest
     steps:
       - name: Set final commit status
         uses: myrotvorets/set-commit-status-action@v2.0.0
         with:
           sha: ${{ github.sha }}
-          status: ${{ needs.e2e.result }}
+          status: ${{ needs.e2e.result && needs.e2e-hoge.result }}
