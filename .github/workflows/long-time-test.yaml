@@ -38,11 +38,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # github.event_name = workflow_dispatch → pull/<pull_request_number>/merge
+          # github.event_name = workflow_dispatch → refs/pull/<pull_request_number>/merge
           # github.event_name push → github.ref
           if ${{ github.event_name == 'workflow_dispatch' }};then
             PR_number=$(gh pr view --json number -q .number)
-            echo "github_ref=pull/${PR_number}/merge" >> $GITHUB_OUTPUT
+            echo "github_ref=refs/pull/${PR_number}/merge" >> $GITHUB_OUTPUT
           else
             echo "github_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
           fi
