@@ -9,3 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "test topic branch"
+      - name: display github context
+        run: |
+          echo github
+          echo '${{ toJSON(github) }}'
