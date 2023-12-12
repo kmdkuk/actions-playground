@@ -34,21 +34,38 @@ jobs:
     steps:
       - name: Extract github.ref
         id: extract
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          echo "github_ref=main" >> $GITHUB_OUTPUT
+          # github.event_name = workflow_dispatch → refs/remotes/pull/<pull_request_number>/merge
+          # github.event_name push → github.ref
+          if ${{ github.event_name = 'workflow_dispatch' }};then
+            PR_number=$(gh pr view --json number -q .number)
+            echo "github_ref=refs/remotes/pull/${PR_number}/merge" >> $GITHUB_OUTPUT
+          else
+            echo "github_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
+          fi
   e2e:
     name: e2e
-    needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
+    needs:
+    - commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
+    - extract-github-ref
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.extract-github-ref.outputs.github_ref }}
       - run: echo "this step very very long e2e test"
   e2e-hoge:
     name: e2e-hoge
-    needs: commit-status-start # 実際にはe2e-hogeのstepの方が長くなるのは自明なのでいらないはず
+    needs:
+    - commit-status-start # 実際にはe2e-hogeのstepの方が長くなるのは自明なのでいらないはず
+    - extract-github-ref
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.extract-github-ref.outputs.github_ref }}
       - run: |
           echo "this step very very long e2e-hoge test"
   commit-status-final:
