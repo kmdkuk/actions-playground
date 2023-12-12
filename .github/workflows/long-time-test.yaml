@@ -1,5 +1,10 @@
 name: long time test
 on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:
@@ -21,6 +26,16 @@ jobs:
         run: |
           echo github
           echo '${{ toJSON(github) }}'
+  extract-github-ref:
+    name: extract github.ref
+    runs-on: ubuntu-latest
+    outputs:
+      github_ref: ${{ steps.extract.outputs.github_ref }}
+    steps:
+      - name: Extract github.ref
+        id: extract
+        run: |
+          echo "github_ref=main" >> $GITHUB_OUTPUT
   e2e:
     name: e2e
     needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
