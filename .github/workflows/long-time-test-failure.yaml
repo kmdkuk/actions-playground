@@ -24,7 +24,6 @@ jobs:
             /repos/${{ github.repository }}/statuses/${{ github.sha }} \
             -f state='pending' \
             -f target_url='${{github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
-            -f description='pending' \
             -f context='${{ github.workflow }}'
   e2e:
     name: e2e
@@ -70,5 +69,4 @@ jobs:
             /repos/${{ github.repository }}/statuses/${{ github.sha }} \
             -f state='${{ steps.final-status.outputs.result }}' \
             -f target_url='${{github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
-            -f description='${{ steps.final-status.outputs.result }}' \
             -f context='${{ github.workflow }}'
