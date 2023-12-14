@@ -14,9 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set pending to commit status
-        uses: myrotvorets/set-commit-status-action@v2.0.0
-        with:
-          sha: ${{ github.sha }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state='pending' \
+            -f target_url='${{github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            -f description='pending' \
+            -f context='${{ github.workflow }}'
   e2e:
     name: e2e
     needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
