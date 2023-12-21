@@ -21,4 +21,3 @@ jobs:
             echo "github_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
           fi
           echo "PR_number=${PR_NUMBER}"
-          exit 0
