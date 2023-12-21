@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - name: extract
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           set -e
           PR_number=$(gh pr view --json number -q .number)
           if [ $? == 0 ];then
