@@ -1,0 +1,19 @@
+name: onPR
+on:
+  push:
+
+jobs:
+  sete:
+    name: extract branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set -e
+          PR_number=$(gh pr view --json number -q .number)
+          if [ $? == 0 ];then
+            echo "github_ref=refs/pull/${PR_number}/merge" >> $GITHUB_OUTPUT
+          else
+            echo "github_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
+          fi
+          echo "PR_number=${PR_NUMBER}"
