@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: extract
+        id: extract
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -19,4 +20,4 @@ jobs:
           else
             echo "github_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
           fi
-          echo "${outputs.github_ref}"
+      - run: echo ${{ steps.extract.outputs.github_ref }}
