@@ -1,4 +1,4 @@
-name: onPR
+name: sete
 on:
   push:
 
