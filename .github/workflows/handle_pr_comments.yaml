@@ -10,9 +10,26 @@ permissions:
   actions: write
 
 jobs:
+  check_permission:
+    name: "Check permission"
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
+    runs-on: ubuntu-22.04
+    steps:
+      - name: check permission
+        run: |
+          allow_permissions=('OWNER', "COLLABORATOR", "MEMBER")
+          if echo "${allow_permissions[@]}" | grep -qw "${{ github.event.comment.author_association }}"; then
+            echo "ok"
+          else
+            echo "skip"
+            echo "user association is ${{ github.event.comment.author_association }}"
+            echo "To trigger the e2e test, the user must be an OWNER, COLLABORATOR, or MEMBER."
+            exit 1
+          fi
   run_test:
     name: "Run e2e test"
-    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test') && contains('["OWNER", "COLLABORATOR", "CONTRIBUTOR"]', github.event.comment.author_association)
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
+    needs: check_permission
     runs-on: ubuntu-latest
     steps:
       - name: create reaction
