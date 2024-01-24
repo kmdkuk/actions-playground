@@ -20,7 +20,7 @@ jobs:
       - name: check permission
         id: check_permission
         run: |
-          allow_permissions=("COLLABORATOR", "MEMBER")
+          allow_permissions=("OWNER", "COLLABORATOR", "MEMBER")
           echo "user association is ${{ github.event.comment.author_association }}"
           if echo "${allow_permissions[@]}" | grep -qw "${{ github.event.comment.author_association }}"; then
             echo "ok"
