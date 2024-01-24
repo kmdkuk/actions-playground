@@ -15,7 +15,7 @@ jobs:
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/test')
     runs-on: ubuntu-22.04
     outputs:
-      continue: ${{ steps.check_permission.outputs.continue }}
+      permission: ${{ steps.check_permission.outputs.permission }}
     steps:
       - name: check permission
         id: check_permission
@@ -24,15 +24,15 @@ jobs:
           echo "user association is ${{ github.event.comment.author_association }}"
           if echo "${allow_permissions[@]}" | grep -qw "${{ github.event.comment.author_association }}"; then
             echo "ok"
-            echo "continue=true" >> $GITHUB_OUTPUT
+            echo "permission=ok" >> $GITHUB_OUTPUT
           else
             echo "skip"
             echo "To trigger the e2e test, the user must be an OWNER, COLLABORATOR, or MEMBER."
-            echo "continue=false" >> $GITHUB_OUTPUT
+            echo "permission=deny" >> $GITHUB_OUTPUT
           fi
   run_test:
     name: "Run e2e test"
-    if: ${{ needs.check_permission.outputs.continue }}
+    if: ${{ needs.check_permission.outputs.permission == 'ok' }}
     needs: check_permission
     runs-on: ubuntu-latest
     steps:
