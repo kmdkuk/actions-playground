@@ -23,16 +23,16 @@ jobs:
           allow_permissions=("OWNER", "COLLABORATOR", "MEMBER")
           echo "user association is ${{ github.event.comment.author_association }}"
           if echo "${allow_permissions[@]}" | grep -qw "${{ github.event.comment.author_association }}"; then
-            echo "ok"
-            echo "permission=ok" >> $GITHUB_OUTPUT
+            echo "allow"
+            echo "permission=allow" >> $GITHUB_OUTPUT
           else
-            echo "skip"
+            echo "deny"
             echo "To trigger the e2e test, the user must be an OWNER, COLLABORATOR, or MEMBER."
             echo "permission=deny" >> $GITHUB_OUTPUT
           fi
   run_test:
     name: "Run e2e test"
-    if: ${{ needs.check_permission.outputs.permission == 'ok' }}
+    if: ${{ needs.check_permission.outputs.permission == 'allow' }}
     needs: check_permission
     runs-on: ubuntu-latest
     steps:
