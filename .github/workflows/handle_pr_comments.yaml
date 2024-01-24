@@ -32,7 +32,7 @@ jobs:
           fi
   run_test:
     name: "Run e2e test"
-    if: needs.check_permission.outputs.continue
+    if: ${{ needs.check_permission.outputs.continue }}
     needs: check_permission
     runs-on: ubuntu-latest
     steps:
