@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: exit 1
+      #- run: exit 1
   completed:
     name: completed
     runs-on: ubuntu-latest
