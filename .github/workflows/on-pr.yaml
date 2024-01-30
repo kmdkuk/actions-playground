@@ -26,3 +26,5 @@ jobs:
     needs:
       - test
       - test2
+    steps:
+      - run: echo "ok"
