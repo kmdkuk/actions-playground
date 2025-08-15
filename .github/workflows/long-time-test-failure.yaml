@@ -30,7 +30,7 @@ jobs:
     needs: commit-status-start # 実際にはe2eのstepの方が長くなるのは自明なのでいらないはず
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: |
           echo "this step very very long e2e test"
           false
@@ -39,7 +39,7 @@ jobs:
     needs: commit-status-start # 実際にはe2e-hogeのstepの方が長くなるのは自明なのでいらないはず
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: |
           echo "this step very very long e2e-hoge test"
   commit-status-final:
