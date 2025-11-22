@@ -8,7 +8,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: echo "test topic branch"
       - name: display github context
         run: |
@@ -18,7 +18,7 @@ jobs:
     name: test2
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       #- run: exit 1
   completed:
     name: completed
